@@ -28,6 +28,23 @@ body {
 .blink { animation: blink 0.5s infinite }
 .rainbow { animation: rainbow 1s infinite }
 .spin { animation: spin 3s linear infinite }
+
+@keyframes shake {
+  0% { transform: translate(0,0) }
+  25% { transform: translate(5px,0) }
+  50% { transform: translate(-5px,0) }
+  75% { transform: translate(5px,0) }
+  100% { transform: translate(0,0) }
+}
+
+.shake {
+  animation: shake 0.2s infinite;
+}
+
+.pixel {
+  font-family: monospace;
+  image-rendering: pixelated;
+}
 </style>
 </head>
 
@@ -96,6 +113,37 @@ class="max-w-full overflow-hidden text-2xl sm:text-3xl md:text-4xl rainbow bg-bl
 
 </div>
 
+<div class="mt-32 mx-auto w-full max-w-[95vw] border-[10px] border-dashed border-green-400 bg-black bg-opacity-90 p-6 shake">
+
+  <marquee scrollamount="25"
+    class="text-4xl bg-lime-500 text-black font-bold">
+    🧠 ЕСЛИ ТЫ НЕ ЛОХ — ПРОЙДИ ИГРУ И ВЫИГРАЙ ИБ 🧠
+  </marquee>
+
+  <p class="mt-4 text-red-500 text-2xl blink rainbow">
+    НЕ ПРОШЁЛ — ЛОШПЕДУС
+  </p>
+
+  <p class="mt-4 text-yellow-300">
+    КЛИК / ПРОБЕЛ — ЛЕТЕТЬ<br>
+    ВРЕЗАЛСЯ — ЛОХ
+  </p>
+
+  <canvas id="flappy" width="320" height="420"
+    class="mx-auto mt-6 border-8 border-pink-500 bg-cyan-200 pixel"></canvas>
+
+  <p id="score" class="mt-4 text-3xl text-lime-400 blink">
+    СЧЁТ: 0
+  </p>
+
+  <p id="endText"
+     class="hidden mt-6 text-5xl rainbow blink">
+    ТЫ ВСЁ РАВНО ЛОШПЕД 🤡
+  </p>
+
+</div>
+
+
 <script>
 function startTest() {
   window.open("test.html", "_blank");
@@ -106,6 +154,105 @@ const audio = document.querySelector("audio");
 document.addEventListener("touchstart", () => {
   audio.play();
 }, { once: true });
+
+const canvas = document.getElementById("flappy");
+const ctx = canvas.getContext("2d");
+
+let birdY = 200;
+let velocity = 10;
+let gravity = 0.15;
+let lift = -6;
+
+let pipes = [];
+let frame = 0;
+let score = 0;
+let passed = 0;
+let gameOver = false;
+
+function drawBird() {
+  ctx.fillStyle = "red";
+  ctx.fillRect(40, birdY, 20, 20);
+}
+
+function drawPipes() {
+  ctx.fillStyle = "green";
+  pipes.forEach(p => {
+    ctx.fillRect(p.x, 0, 40, p.top);
+    ctx.fillRect(p.x, p.top + 120, 40, canvas.height);
+  });
+}
+
+function updatePipes() {
+  if (frame % 90 === 0) {
+    let top = Math.random() * 200 + 20;
+    pipes.push({ x: canvas.width, top });
+  }
+
+  pipes.forEach(p => {
+    p.x -= 2;
+
+    if (
+      40 + 20 > p.x &&
+      40 < p.x + 40 &&
+      (birdY < p.top || birdY + 20 > p.top + 120)
+    ) {
+      resetGame();
+    }
+
+    if (p.x === 40) {
+      score++;
+      passed++;
+      document.getElementById("score").innerText = "СЧЁТ: " + score;
+
+      if (passed >= 10) {
+        gameOver = true;
+        document.getElementById("endText").classList.remove("hidden");
+      }
+    }
+  });
+
+  pipes = pipes.filter(p => p.x > -40);
+}
+
+function resetGame() {
+  birdY = 200;
+  velocity = 0;
+  pipes = [];
+  score = 0;
+  passed = 0;
+  frame = 0;
+  gameOver = false;
+  document.getElementById("score").innerText = "СЧЁТ: 0";
+  document.getElementById("endText").classList.add("hidden");
+}
+
+function loop() {
+  if (gameOver) return;
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  velocity += gravity;
+  birdY += velocity;
+
+  if (birdY > canvas.height || birdY < 0) resetGame();
+
+  drawBird();
+  drawPipes();
+  updatePipes();
+
+  frame++;
+  requestAnimationFrame(loop);
+}
+
+document.addEventListener("keydown", e => {
+  if (e.code === "Space") velocity = lift;
+});
+
+canvas.addEventListener("click", () => {
+  velocity = lift;
+});
+
+loop();
 </script>
 
 </body>
