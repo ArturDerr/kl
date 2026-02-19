@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>SUPER TEST</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body {
+    background: url("./img1.jpg") repeat;
+
+}
+@keyframes shake {
+  0% { transform: translate(0) }
+  25% { transform: translate(5px,5px) }
+  50% { transform: translate(-5px,-5px) }
+  75% { transform: translate(5px,-5px) }
+}
+.shake { animation: shake 0.3s infinite }
+</style>
+</head>
+
+<body class="text-center text-green-400">
+
+<audio src="./music.mp3" autoplay loop></audio>
+
+<div id="app" class="p-10"></div>
+
+<script>
+const questions = [
+  {
+    q: "КАК ЗОВУТ ГЕНЕРАЛЬНОГО ДИРЕКТОРА АЛАБУГА ПОЛИТЕХ",
+    img: "img2.jpg",
+    answers: ["Тимур Наилевич", "Владимир Окиропов", "Тимур Дерр"],
+    correct: 0
+  },
+  {
+    q: "СКОЛЬКО СТАКАНОВ БЫЛО НА ХАКАТОНЕ в т-банке когда мы строили башню из стаканов",
+    img: "img3.jpg",
+    answers: ["12", "8", "24"],
+    correct: 1
+  },
+  {
+    q: "как зовут составителя всош по иб",
+    img: "./img6.jpg",
+    answers: ["Мещеряков Роман", "Сергеев Антон", "Пыр Пим Патапим"],
+    correct: 2
+  },
+  {
+    q: "САМЫЙ ГЛАВНЫЙ ВОПРОС ЭТО ВАЖНО!!! Калибровка шумов в квантовом гомоморфизме это -",
+    img: "img5.jpg",
+    answers: ["Декогеренция фазовых операторов Шрёдингера", "Ренормализация тензорных шумовых матриц", "Суперпозиция случайных булевых базисов"],
+    correct: 2
+  }
+];
+
+let current = 0;
+let score = 0;
+
+const app = document.getElementById("app");
+
+function render() {
+  const q = questions[current];
+  app.innerHTML = `
+    <h1 class="text-5xl sm:text-[80px] text-red-500">${q.q}</h1>
+    <img src="${q.img}" class="mx-auto mt-6 w-152 border-8 border-yellow-400">
+    <div class="mt-8 space-y-4">
+      <button onclick="answer(0)" class="btn">${q.answers[0]}</button>
+      <button onclick="answer(1)" class="btn">${q.answers[1]}</button>
+      <button onclick="answer(2)" class="btn">${q.answers[2]}</button>
+    </div>
+  `;
+}
+
+
+function answer(n) {
+  if (n === questions[current].correct) score++;
+  current++;
+  if (current < questions.length) {
+    render();
+  } else {
+    localStorage.setItem("score", score);
+    location.href = "result.html";
+  }
+}
+
+render();
+</script>
+
+<style>
+.btn {
+  padding: 15px;
+  font-size: 60px;
+  background: linear-gradient(red, yellow);
+  border: 6px ridge cyan;
+  animation: pulse 1s infinite;
+}
+</style>
+
+</body>
+</html>

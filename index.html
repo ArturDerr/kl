@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WELCOME TO 23 FEBRUARY</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body {
+  background: url("./img1.jpg") repeat;
+}
+
+@keyframes blink {
+  0%,100% { opacity: 1 }
+  50% { opacity: 0 }
+}
+
+@keyframes rainbow {
+  0% { color:red }
+  25% { color:yellow }
+  50% { color:lime }
+  75% { color:cyan }
+  100% { color:red }
+}
+
+.blink { animation: blink 0.5s infinite }
+.rainbow { animation: rainbow 1s infinite }
+.spin { animation: spin 3s linear infinite }
+</style>
+</head>
+
+<body class="text-center text-white overflow-x-hidden">
+
+<audio src="music.mp3" autoplay loop></audio>
+
+<marquee scrollamount="15"
+class="max-w-full overflow-hidden text-2xl sm:text-3xl md:text-4xl rainbow bg-black">
+С НОВОЙ ГОЙДОЙ
+</marquee>
+
+<div class="mt-10 mx-auto w-full max-w-[95vw] border-8 border-dashed border-pink-500 bg-black bg-opacity-70 p-6 sm:p-10">
+
+  <h1 class="text-4xl sm:text-5xl md:text-6xl rainbow blink">
+    23 ФЕВРАЛЯ
+  </h1>
+
+  <h2 class="text-xl sm:text-2xl md:text-3xl text-yellow-300 mt-4 animate-bounce">
+    СПЕЦИАЛЬНО ДЛЯ<br>
+    ЛОТОРЕВА КИРИЛЛА ПАВЛОВИЧА
+  </h2>
+
+  <img src="фото.png"
+  class="mx-auto mt-6 w-40 sm:w-52 md:w-64 border-8 border-yellow-400 spin max-w-full">
+
+  <p class="mt-6 text-lime-400 text-lg sm:text-xl">
+    ⚠️ ВНИМАНИЕ ⚠️<br>
+    ТЕСТ СОДЕРЖИТ ТЕСТ
+  </p>
+
+  <button onclick="startTest()"
+  class="mt-10 px-6 sm:px-10 py-4 sm:py-5 text-xl sm:text-2xl md:text-3xl bg-gradient-to-r from-red-500 to-yellow-400 border-8 border-blue-500 hover:scale-110 transition-all animate-pulse">
+    🚀 ПРОЙТИ ТЕСТ 🚀
+  </button>
+
+</div>
+
+<div class="mt-20 mx-auto w-full max-w-[95vw] border-8 border-double border-red-600 bg-black bg-opacity-80 p-6 sm:p-10">
+
+  <marquee scrollamount="20" direction="right"
+  class="max-w-full overflow-hidden text-2xl sm:text-4xl md:text-5xl text-red-500 bg-yellow-300">
+    ❗❗❗ ОБЯЗАТЕЛЬНО К ПРОЧТЕНИЮ ❗❗❗
+  </marquee>
+
+  <div class="mt-10 flex flex-col md:flex-row items-center justify-center gap-6 sm:gap-10">
+
+    <div class="w-full md:w-1/2 text-left text-lg sm:text-xl md:text-2xl text-lime-400 overflow-hidden md:animate-spin"
+    style="animation-duration: 15s;">
+      <p class="blink rainbow">
+        БРАТАНЧИК КОРОЧЕ СЛУШАЙ ОЧЕЕНЬ ВАЖНО ТЫ СМОТРИ БЕРИ НАХУЙ ВСОШ ПО ИБ ЕБИ ВСЕХ ОРГОВ И ЭТИХ ЦПМщиков москвичей НАХУЙ И ТЫ КОРОЧЕ ВЫИГРАЕШЬ Я УВЕРЕН 100000% И КОРОЧЕ В ЮЗГУ ПОСТУПАЙ И ВСЕ БУДЕТ ЗАЕБИСЬ 
+      </p>
+    </div>
+
+    <div class="w-full md:w-1/2 border-8 border-dotted border-cyan-400 animate-bounce overflow-hidden">
+      <video src="video.mp4" autoplay loop muted controls
+      class="w-full max-w-full"></video>
+    </div>
+
+  </div>
+
+  <marquee scrollamount="30" direction="left"
+  class="mt-10 max-w-full overflow-hidden text-xl sm:text-3xl md:text-4xl bg-red-700 text-yellow-300">
+    ⬇⬇⬇ ЕСЛИ НЕ ПРОЧИТАЛ — ЛОХ ⬇⬇⬇
+  </marquee>
+
+</div>
+
+<script>
+function startTest() {
+  window.open("test.html", "_blank");
+}
+
+const audio = document.querySelector("audio");
+
+document.addEventListener("touchstart", () => {
+  audio.play();
+}, { once: true });
+</script>
+
+</body>
+</html>
